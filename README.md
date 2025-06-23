@@ -32,18 +32,34 @@
 ```lua
 Config = {}
 
-Config.Inventory = 'qb'  -- Choose 'qb' or 'ox' according to the inventory system used
+Config.Inventory = 'qb'  -- 'qb' atau 'ox'
+
+Config.Pesan = {
+    sukses_starter = 'Congratulations! You have received your Starter Pack.',
+    sukses_weekly = "You have successfully claimed your weekly reward! Items received: %s.", 
+    tunggu_weekly = "You can claim again in: ",
+    inventaris_penuh = 'Your inventory is full! The claim has been cancelled.',
+    tolak_aturan = "You must agree to the rules to claim your pack.",
+    mobil_disiapkan = "Your vehicle is being prepared...",
+    mobil_sukses = "Enjoy your new vehicle!",
+    mobil_ke_garasi = "A %s (%s) has been sent to your %s.", 
+    terima_kasih_setuju = "Thank you for agreeing. Processing your starter pack...",
+}
 
 -- NPC Settings
 Config.NPC = {
     model = 's_m_y_swat_01',
-    coords = vector4(-239.88, -989.92, 29.29, 249.91),
+    coords = vector4(-1306.11, -646.17, 26.37, 216.2),
+    anim = 'amb@world_human_cop_idles@a@a', 
+    animDict = 'amb@world_human_cop_idles@a'
 }
 
 -- Target Interaction Settings
 Config.Target = {
     label = 'Claim Starter Pack',
     icon = 'fas fa-gift',
+    label_weekly = 'Claim Weekly Reward',
+    icon_weekly = 'fas fa-calendar-check'
 }
 
 -- Starter Pack Items
@@ -56,39 +72,32 @@ Config.StarterPack = {
     }
 }
 
--- Vehicle Configuration
 Config.Vehicle = {
     enabled = true,
-    model = 'sultan',
-    spawnMethod = 'spawn', -- Options: 'spawn' or 'garage'
-    garage = 'pillboxgarage', -- Garage name if spawnMethod = 'garage'
-    spawnPoint = vector4(-225.5, -961.65, 29.2, 155.29), -- Spawn location if spawnMethod = 'spawn'
+    
+    options = {
+        { model = 'sultan', label = 'Karin Sultan' },
+        { model = 'elegy2', label = 'Annis Elegy RH8' },
+        { model = 'fusilade', label = 'Schyster Fusilade' }
+    },
+    spawnMethod = 'spawn', -- 'spawn' atau 'garage'
+    garage = 'pillboxgarage',
+    spawnPoint = vector4(-988.84, -407.03, 37.83, 295.43),
 }
 
--- Fuel System Configuration
 Config.FuelSystem = {
-    -- Choose fuel system : 'legacy', 'cdn', 'ox', or 'none'
-    system = 'legacy', 
-
-    setFuelToFull = true 
+    system = 'legacy', -- 'legacy', 'cdn', 'ox', atau 'none'
+    setFuelToFull = true
 }
 
--- Notification Messages
-Config.Pesan = {
-    sukses = 'Congratulations! You have received your Starter Pack.', 
-    sudah_klaim = 'You have already claimed this pack.', 
-}
-
--- Rules UI Configuration
+-- Rules Configuration
 Config.Rules = {
     header = "CITY RULES",
-    text = "Welcome to our city! Before proceeding, please read and agree to the rules below:\n\n" ..
-           "1. **No RDM & VDM:** Killing or ramming other players without a valid RP reason is strictly prohibited.\n\n" ..
-           "2. **Fear RP:** Value your life. If threatened with a weapon, you must act afraid and comply.\n\n" ..
-           "3. **Metagaming & Powergaming:** Using out-of-character (OOC) information in-character (IC) is not allowed.\n\n" ..
-           "4. **No Exploits or Cheats:** Using any form of exploit or cheat to gain an unfair advantage is forbidden.\n\n" ..
-           "5. **Respect Other Players:** Treat all players with respect. Harassment or discrimination will not be tolerated.\n\n" ..
-           "By clicking the 'Agree' button, you confirm that you have read, understood, and will comply with all city rules.",
+    text = "Welcome to our city! Please read and agree to the rules below:\n\n" ..
+           "1. **No RDM & VDM:** Do not kill or ram others without a valid RP reason.\n\n" ..
+           "2. **Fear RP:** Value your life. Act afraid when threatened.\n\n" ..
+           "3. **Metagaming & Powergaming:** Do not use out-of-character (OOC) information in-character (IC).\n\n" ..
+           "By clicking 'Agree', you confirm you will comply with all city rules.",
     button = {
         submit = "Agree & Claim",
         cancel = "Decline"
@@ -97,31 +106,35 @@ Config.Rules = {
 
 -- Discord Log Configuration
 Config.Discord = {
-    enabled = false, -- set to false to disable logging
-    webhook = "Url_webhook" 
+    enabled = true,
+    webhook = "https://discord.com/api/webhooks/1385743649601753250/uDsqkia1A4TVHKFD0ZKq_ODP72lwl-3h7C_9jrIPfPhfyCpppmMoN76iJ13OeXr8fW3u",
+    embeds = {
+        starter = {
+            title = "✅ Starter Pack Claimed!",
+            color = 3066993, -- Hijau
+        },
+        weekly = {
+            title = "🎁 Weekly Reward Claimed!",
+            color = 15158332, -- Emas
+        }
+    }
 }
 
 -- Weekly Claim Configuration
 Config.WeeklyClaim = {
     enabled = true,
     cooldown_days = 7,
-    itemsToGive = 2, 
+    itemsToGive = 2,
     RewardPool = {
-        { name = 'sandwich', amount = 5 },
-        { name = 'water_bottle', amount = 5 },
-        { name = 'lockpick', amount = 3 },
-        { name = 'advancedlockpick', amount = 1 },
-        { name = 'bandage', amount = 4 },
-        { name = 'money-roll', amount = 1 }, 
-        { name = 'goldbar', amount = 1 }, 
-    },
-    Pesan = {
-        sukses = "You have successfully claimed your weekly reward! See you next week.",
-        tunggu = "You can claim again in: ",
-        penuh = "Your inventory is full! Please try again later.",
+        { name = 'sandwich', amount = 5, chance = 40 },
+        { name = 'water_bottle', amount = 5, chance = 40 },
+        { name = 'lockpick', amount = 3, chance = 25 },
+        { name = 'advancedlockpick', amount = 1, chance = 15 },
+        { name = 'bandage', amount = 4, chance = 30 },
+        { name = 'money-roll', amount = 1, chance = 5 },
+        { name = 'goldbar', amount = 1, chance = 2 },
     }
 }
-
 ```
 ### 🔍 Preview
 
